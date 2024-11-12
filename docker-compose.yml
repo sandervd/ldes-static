@@ -1,0 +1,20 @@
+services:  
+  ldes-static-conversion:
+    build: ./ldes-static-conversion
+    volumes:
+     - crawled-fragments:/fragments
+    environment:
+      - FRAGMENTS_OUTPUT_DIR=/fragments
+      - LDES_START_NODE=https://brugge-ldes.geomobility.eu/observations/by-page
+      - LDES_BASE_PATH=https://brugge-ldes.geomobility.eu
+
+  host-static-ldes:
+    image: 'bitnami/apache:latest'
+    ports:
+      - '8090:8080'
+    volumes:
+      - crawled-fragments:/opt/bitnami/apache/htdocs
+
+volumes:
+  crawled-fragments:
+    name: crawled-fragments
